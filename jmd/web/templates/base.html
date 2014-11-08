@@ -26,6 +26,26 @@
             {#            alert(p);#}
             $('#id_lat').val(p.coords.latitude);
             $('#id_lng').val(p.coords.longitude);
+
+            latitude = p.coords.latitude;
+            longitude = p.coords.longitude;
+            radius = $('#id_radius').val();
+            $.get("/places/around/", { lat: latitude, lng: longitude, radius: radius})
+                    .done(function (data) {
+                        {#                        alert(data);#}
+                        places_div = $('#id_places');
+                        places_div.append(data.count + "<br/>");
+                        {#                        pl_json = data.places;#}
+                        {#                        alert(data.places);#}
+                        $.each(data.places, function (index, obj) {
+                            places_div.append("<a href='/places/" + obj.uuid + "'>" + obj.name + "</a>" + "<br/>");
+                        });
+                        {#                        for (var place in data.places) {#}
+                        {#                            div.val().append(place.name);#}
+                        {#                        }#}
+
+
+                    });
             {#                    alert(p.coords.latitude + ' -- ' + p.coords.longitude);#}
             {#            $.get("/get-geo/", {lat: p.coords.latitude, lon: p.coords.longitude})#}
             {#                    .done(function (data) {#}
