@@ -1,10 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from django.conf import settings
 import foursquare
 from .forms import LocationForm
 from .models import Place
-
+from django.db.models import QuerySet
 
 def home(request, tmpl='places/home.html'):
     data = {}
@@ -15,10 +15,10 @@ def home(request, tmpl='places/home.html'):
 
 def around(request, tmpl='places/around.html'):
     data = {}
-    loc_form = LocationForm(request.GET or None)
+    # loc_form = LocationForm(request.GET or None)
     # print loc_form.is_valid()
 
-    place_list = []
+    # place_list = []
 
     # if loc_form.is_valid():
     #     frm = loc_form.cleaned_data
@@ -27,53 +27,72 @@ def around(request, tmpl='places/around.html'):
     lng = request.GET.get('lng')
     rad = request.GET.get('radius')
 
+    if not lat and not lng:
+        return redirect('places_home')
+
     client = foursquare.Foursquare(client_id=settings.YOUR_CLIENT_ID, client_secret=settings.YOUR_CLIENT_SECRET)
 
     # list_venues = client.venues.search(params={'ll': '%s,%s' % (lat, lng), 'radius':1000})
     list_venues = client.venues.search(
         params={'ll': '%s,%s' % (lat, lng), 'radius': rad, 'categoryId': '4d4b7105d754a06374d81259'})
     # list_venues = client.venues.search(params={'ll': '%s,%s' % (lat, lng), 'categoryId':'4d4b7105d754a06374d81259'})
+    place_list = []
+    # pl_dict = QueryDict
 
-
+    venue_list = []
 
     for v in list_venues['venues']:
+        vid = v['id']
+        vname = v['name']
+
         lct = v['location']
-        # print lct['lng']
+        vlat = lct['lat']
+        vlng = lct['lng']
+        vdist = lct['distance']
+
         try:
-            pl = Place.objects.get(venue_uid=v['id'])
-            place_list.append(pl)
+            pl = Place.objects.get(venue_uid=vid)
         except Place.DoesNotExist:
-            pl = Place.objects.create(venue_uid=v['id'], name=v['name'], lat=lct['lat'], lng=lct['lng'])
+            pl = Place.objects.create(venue_uid=vid, name=vname, lat=vlat, lng=vlng)
+        pl.dist = vdist
+        place_list.append(pl)
+        vurl = pl.get_absolute_url()
+        # print pl.get_absolute_url()
 
+        # print type(vurl
 
-            # print (list_venues)
-            # for venue in list_venues:
-            # print venue.name
-            place_list.append(pl)
+        venue = {'name': vname, 'lat': vlat, 'lng': vlng, 'dist': vdist, 'url': vurl}
+        venue_list.append(venue)
+            # pl.distance = lct['distance']
+            # # print (list_venues)
+            # # for venue in list_venues:
+            # # print venue.name
+            # place_list.append(pl)
 
 
             # data['venue'] = list_venues
-    data['place_list'] = place_list
-    data['places_count'] = len(place_list)
 
+    # for key, value in sorted(venue_list.iteritems(), key=lambda (k,v): (v,k)):
+    # print "%s: %s" % (key, value)
     if request.is_ajax():
         from django.http import HttpResponse
         import json
         # print place_list
-        place_list = list(Place.objects.values('venue_uid', 'name', 'uuid'))
+        # place_list = list(Place.objects.values('venue_uid', 'name', 'uuid'))
+        # place_list = pl.values('venue_uid', 'name', 'uuid')
+        # place_list = list(place_list)
+        # # place_list = list(Place.objects.values('venue_uid', 'name', 'uuid'))
+        #
+        # # for p in place_list:
 
-        # for p in place_list:
-
-
-        pl_data = {'count': len(place_list), 'places': place_list}
-        print pl_data
+        pl_data = {'count': len(venue_list), 'places': venue_list}
         # return HttpResponse(place_list)
         # print json.dumps(place_list)
 
         return HttpResponse(json.dumps(pl_data), content_type="application/json")
 
-
-    print 'should be set'
+    data['place_list'] = place_list
+    data['places_count'] = len(place_list)
     return render(request, tmpl, data)
 
 

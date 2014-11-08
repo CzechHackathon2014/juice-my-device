@@ -16,7 +16,7 @@ from django.conf import settings
 import foursquare
 from places.models import Place
 
-
+FOOD_CATEGORY = '4d4b7105d754a06374d81259'
 def venues(request, tmpl='web/frsq.html'):
     data = {}
     loc_form = LocationForm(request.GET or None)
@@ -32,7 +32,7 @@ def venues(request, tmpl='web/frsq.html'):
         client = foursquare.Foursquare(client_id=settings.YOUR_CLIENT_ID, client_secret=settings.YOUR_CLIENT_SECRET)
 
         # list_venues = client.venues.search(params={'ll': '%s,%s' % (lat, lng), 'radius':1000})
-        list_venues = client.venues.search(params={'ll': '%s,%s' % (lat, lng),  'radius': rad, 'categoryId':'4d4b7105d754a06374d81259'})
+        list_venues = client.venues.search(params={'ll': '%s,%s' % (lat, lng),  'radius': rad, 'categoryId':FOOD_CATEGORY})
         # list_venues = client.venues.search(params={'ll': '%s,%s' % (lat, lng), 'categoryId':'4d4b7105d754a06374d81259'})
 
         place_list = []
@@ -46,7 +46,7 @@ def venues(request, tmpl='web/frsq.html'):
             except Place.DoesNotExist:
                 pl = Place.objects.create(venue_uid=v['id'], name=v['name'], lat=lct['lat'], lng=lct['lng'])
 
-
+                pl.distance = lct['distance']
                 # print (list_venues)
                 # for venue in list_venues:
                 # print venue.name

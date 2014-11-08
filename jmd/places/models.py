@@ -37,5 +37,11 @@ class Place(models.Model):
 
 
 
+class Outlet(models.Model):
+    place = models.ForeignKey(Place)
+    count_yes = models.IntegerField(default=0)
+    count_no = models.IntegerField(default=0)
+    note = models.TextField(max_length=260)
+
 
 
