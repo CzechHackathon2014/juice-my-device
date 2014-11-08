@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+{% block content %}
+    <div class="container">
+        <div class="jumbotron">
+            <h1>
+                Number of places around: {{ places_count }}
+            </h1>
+        </div>
+    </div>
+    <div class="container">
+        <table class="table text-center">
+            <tr>
+                <td>Podnik</td>
+                <td>ID</td>
+            </tr>
+            {% for place in place_list %}
+                <tr class="frsq_td">
+                    <td><a href="{{ place.get_absolute_url }}"> {{ place.name }} </a></td>
+                    <td>{{ place.venue_uid }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock content %}
+</body>
+</html>

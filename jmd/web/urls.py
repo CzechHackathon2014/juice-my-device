@@ -8,7 +8,7 @@ urlpatterns = patterns('web.views',
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^$', 'home', name='home'),
-    url(r'^frsq/$', 'frsq', name='frsq'),
-    url(r'^venues/$', 'venues', name='venues'),
+    #url(r'^frsq/$', 'frsq', name='frsq'),
+    #url(r'^venues/$', 'venues', name='venues'),
     #url(r'^venues/(?P<id>[\w-]+)$', 'detail', name='detail'),
 )
