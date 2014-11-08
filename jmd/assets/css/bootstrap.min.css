@@ -4565,7 +4565,7 @@ textarea.input-group-sm > .form-control, textarea.input-group-sm > .input-group-
 }
 
 .navbar-inverse .navbar-toggle .icon-bar {
-    background-color: #fff
+    background-color: #888
 }
 
 .navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form {
@@ -6671,4 +6671,20 @@ button.close {
 }
 
 .menu_li {
+}
+
+.margin_right{
+    margin-right: 2em;
+}
+.margin_left{
+    margin-left: 2em;
+}
+.icon-bar2{
+    background-color:#888888;
+}
+#id_text{
+    width: 50%;
+}
+.grey{
+    color:grey;
 }
