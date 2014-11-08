@@ -34,12 +34,10 @@
                 {% endfor %}
             </div>
             <div class="col-xs-4">
-            {%  for c in venue.hours %}
-            {{ c.isOpen }}
-            {% endfor %}
-                {{ venue.hours.isOpen|yesno:"Open, Closed" }}
-                {% if venue.hours.isOpen == None %}
-                    ?
+                {% if venue.hours.isOpen %}
+                {{ venue.hours.isOpen|yesno:"Open,Closed" }}
+                {% else %}
+                    We don't know
                 {% endif %}
             </div>
         </div>

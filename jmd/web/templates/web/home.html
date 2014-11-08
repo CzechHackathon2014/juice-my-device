@@ -37,9 +37,10 @@
                             {#                        pl_json = data.places;#}
                             {#                        alert(data.places);#}
                             counter = 0;
+                            places_div.append("<tr><td>Place</td><td>Distance</td></tr>");
                             $.each(data.places, function (index, obj) {
 {#                                alert(obj);#}
-                                places_div.append("<a href='" + obj.url + "'>" + obj.name + "</a>" + obj.dist + "<br/>");
+                                places_div.append("<tr class='frsq_td text-center'><td><a href='" + obj.url + "'>" + obj.name + "</a></td><td>" + obj.dist + "</td></tr>");
 
                                 {#    places_div.append("<a href='/places/" + obj.uuid + "'>" + obj.name + "</a>" + "<br/>");#}
                             });
@@ -96,9 +97,11 @@
 
 
     <div class="container text-center">
-        <h1 id="places_around">Places arround <span id="id_places_count"><i class="fa fa-spinner"></i></span></h1>
-
-        <div id="id_places"></div>
+        <h1 id="places_around">Places arround <span id="id_places_count"><i class="fa fa-spinner fa-spin"></i></span></h1>
+        <table class="table">
+            <tbody id="id_places">
+            </tbody>
+            </table>
 
     </div>
     {#<script src="{{ STATIC_URL }}js/home.js" type="text/javascript" charset="utf-8"></script>#}
