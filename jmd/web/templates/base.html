@@ -9,70 +9,14 @@
     <link rel="stylesheet" href="{{ STATIC_URL }}rangeslider/rangeslider.css">
 
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
     <script src="{{ STATIC_URL }}js/jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
     <script src="{{ STATIC_URL }}js/geoPosition.js" type="text/javascript" charset="utf-8"></script>
     <script src="{{ STATIC_URL }}rangeslider/rangeslider.min.js" type="text/javascript"></script>
+
+
     <script type="text/javascript">
-        if (geoPosition.init()) {  // Geolocation Initialisation
-            geoPosition.getCurrentPosition(success_callback, error_callback, {enableHighAccuracy: true});
-        } else {
-            // You cannot use Geolocation in this device
-        }
-        {#    geoPositionSimulator.init();#}
-
-        // p : geolocation object
-        function success_callback(p) {
-            {#            alert(p);#}
-            $('#id_lat').val(p.coords.latitude);
-            $('#id_lng').val(p.coords.longitude);
-
-            latitude = p.coords.latitude;
-            longitude = p.coords.longitude;
-            radius = $('#id_radius').val();
-            $.get("/places/around/", { lat: latitude, lng: longitude, radius: radius})
-                    .done(function (data) {
-                        {#                        alert(data);#}
-                        places_div = $('#id_places');
-                        places_div.append(data.count + "<br/>");
-                        {#                        pl_json = data.places;#}
-                        {#                        alert(data.places);#}
-                        $.each(data.places, function (index, obj) {
-                            places_div.append("<a href='/places/" + obj.uuid + "'>" + obj.name + "</a>" + "<br/>");
-                        });
-                        {#                        for (var place in data.places) {#}
-                        {#                            div.val().append(place.name);#}
-                        {#                        }#}
-
-
-                    });
-            {#                    alert(p.coords.latitude + ' -- ' + p.coords.longitude);#}
-            {#            $.get("/get-geo/", {lat: p.coords.latitude, lon: p.coords.longitude})#}
-            {#                    .done(function (data) {#}
-            {#                        alert("Data Loaded: " + data);#}
-            {#                        if (data.find) {#}
-            {#                            alert(data.message);#}
-            {#                            $('#id_invitation_code').val(data.inv_code);#}
-            {##}
-            {##}
-            {#                            toastr.options = {#}
-            {#                                closeButton: false,#}
-            {#                                debug: false,#}
-            {#                                positionClass: 'toast-top-full-width',#}
-            {#                                onclick: null#}
-            {#                            };#}
-            {#                            toastr['info'](data.message);#}
-            {#                        }#}
-            {##}
-            {#                    });#}
-            // p.latitude : latitude value
-            // p.longitude : longitude value
-        }
-
-        function error_callback(p) {
-            // p.message : error message
-            {#        alert('none');#}
-        }
+        {% block extra_js %}{% endblock %}
         jQuery(document).ready(function ($) {
             $(".frsq_td").click(function () {
                 window.document.location = $(this).find('a').attr('href');

@@ -82,9 +82,13 @@ from django.shortcuts import get_object_or_404
 
 def detail(request, uid, tmpl='places/detail.html'):
     data = {}
+    client = foursquare.Foursquare(client_id=settings.YOUR_CLIENT_ID, client_secret=settings.YOUR_CLIENT_SECRET)
 
     place = get_object_or_404(Place, uuid=uid)
-
+    venue = client.venues(place.venue_uid)
     data['place'] = place
+    data['venue'] = venue['venue']
+
+    # data["category"] = venue["category"]
 
     return render(request, tmpl, data)
