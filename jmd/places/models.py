@@ -19,7 +19,7 @@ class Place(models.Model):
     lng = models.FloatField()
 
     created_at = models.DateTimeField(default=timezone.now, editable=False)
-    updated_at = models.DateTimeField(auto_now=True, default=timezone.now)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
         if not self.uuid:

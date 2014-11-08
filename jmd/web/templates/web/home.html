@@ -7,18 +7,25 @@
 
 </head>
 <body>
+{% block active_home %}active{% endblock %}
 {% block content %}
-
+<script type="javascript">
+$('input[type="range"]').rangeslider();
+</script>
     <div class="container">
-    <div class="jumbotron text-center">
-    <h1>Hey, give me some Juice!</h1>
-    </div>
+        <div class="jumbotron text-center">
+            <h1>Hey, give me some Juice!</h1>
+        </div>
     </div>
     <div class="container text-center">
-    <form class="form" method="get" action="{% url 'places_around' %}">
-        <div class="form-group">{{ locaction_form.as_p }}</div>
-        <button class="btn btn-primary btn-lg" type="submit">Submit</button>
-    </form>
+        <form class="form" method="get" action="{% url 'places_around' %}">
+            <div class="form-group">{{ locaction_form.as_p }}</div>
+
+            <label for=radius>Distance</label>
+            <input id=radius" type="range" min="10" max="1000" step="10" value="300">
+            <output class="output"></output>
+            <button class="btn btn-primary btn-lg" type="submit">Submit</button>
+        </form>
     </div>
 {% endblock %}
 </body>
