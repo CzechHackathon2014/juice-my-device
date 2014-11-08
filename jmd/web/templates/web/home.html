@@ -4,10 +4,16 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
+
 </head>
 <body>
 {% block content %}
     <h1>Hey, give me some Juice!</h1>
+
+    <form method="get" action="{% url 'venues' %}">
+        {{ locaction_form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
 {% endblock %}
 </body>
 </html>
