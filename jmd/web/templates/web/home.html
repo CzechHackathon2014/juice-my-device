@@ -37,10 +37,10 @@
                             {#                        pl_json = data.places;#}
                             {#                        alert(data.places);#}
                             counter = 0;
-                            places_div.append("<tr><td>Place</td><td>Distance</td></tr>");
+                            {#                            places_div.append("<tr><td>Place</td><td>Distance</td></tr>");#}
                             $.each(data.places, function (index, obj) {
-{#                                alert(obj);#}
-                                places_div.append("<tr class='frsq_td text-center'><td><a href='" + obj.url + "'>" + obj.name + "</a></td><td>" + obj.dist + "</td></tr>");
+                                {#                                alert(obj);#}
+                                places_div.append("<tr class='frsq_td'><td><a href='" + obj.url + "'>" + obj.name + "</a></td><td>" + obj.dist + "</td><td>" + obj.outlets + "</td></tr>");
 
                                 {#    places_div.append("<a href='/places/" + obj.uuid + "'>" + obj.name + "</a>" + "<br/>");#}
                             });
@@ -89,19 +89,34 @@
     {#        </div>#}
     {#    </div>#}
     <div class="container text-center">
-        <form class="form form-inline" method="get" action="{% url 'places_around' %}">
-            <div class="form-group">{{ locaction_form.as_p }}</div>
-            <button class="btn btn-default" type="submit"><i class="fa fa-crosshairs"></i></button>
-        </form>
+        <div class="row">
+            <div class="col-xs-12">
+                <form class="form form-inline" method="get" action="{% url 'places_around' %}">
+                    <div>{{ locaction_form }}<button class="btn btn-default" type="submit"><i class="fa fa-crosshairs"></i></button>    </div>
+
+                </form>
+
+            </div>
+        </div>
+
     </div>
 
 
     <div class="container text-center">
-        <h1 id="places_around">Places arround <span id="id_places_count"><i class="fa fa-spinner fa-spin"></i></span></h1>
-        <table class="table">
-            <tbody id="id_places">
+        <h1 id="places_around">Places arround <span id="id_places_count"><i class="fa fa-spinner fa-spin"></i></span>
+        </h1>
+        <table class="table text-center">
+            <thead class="text-center">
+            <tr>
+                <th>Place</th>
+                <th>Distance</th>
+                <th>Outlets</th>
+            </tr>
+
+            </thead>
+            <tbody id="id_places" class="text-center">
             </tbody>
-            </table>
+        </table>
 
     </div>
     {#<script src="{{ STATIC_URL }}js/home.js" type="text/javascript" charset="utf-8"></script>#}

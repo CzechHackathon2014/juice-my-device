@@ -61,7 +61,7 @@ def around(request, tmpl='places/around.html'):
 
         # print type(vurl
 
-        venue = {'name': vname, 'lat': vlat, 'lng': vlng, 'dist': vdist, 'url': vurl}
+        venue = {'name': vname, 'lat': vlat, 'lng': vlng, 'dist': vdist, 'url': vurl, 'outlets': pl.has_outlets()}
         venue_list.append(venue)
             # pl.distance = lct['distance']
             # # print (list_venues)
@@ -111,3 +111,17 @@ def detail(request, uid, tmpl='places/detail.html'):
     # data["category"] = venue["category"]
 
     return render(request, tmpl, data)
+
+
+
+def outlet(request, uid, act):
+    data = {}
+
+    place = get_object_or_404(Place, uuid=uid)
+    if act == '+':
+        place.outlet_yes += 1
+    if act == '-':
+        place.outlet_no +=1
+    place.save()
+
+    return redirect(place.get_absolute_url())

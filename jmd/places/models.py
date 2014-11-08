@@ -21,6 +21,12 @@ class Place(models.Model):
     created_at = models.DateTimeField(default=timezone.now, editable=False)
     updated_at = models.DateTimeField(auto_now=True)
 
+    outlet_yes = models.IntegerField(default=0)
+    outlet_no = models.IntegerField(default=0)
+
+    def has_outlets(self):
+        return self.outlet_yes - self.outlet_no
+
     def save(self, *args, **kwargs):
         if not self.uuid:
             self.uuid = uuid.uuid4().hex
@@ -33,6 +39,14 @@ class Place(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return 'place_detail', [self.uuid]
+
+    @models.permalink
+    def get_outlet_yes_url(self):
+        return 'place_outlet_update', [self.uuid, '+']
+
+    @models.permalink
+    def get_outlet_no_url(self):
+        return 'place_outlet_update', [self.uuid, '-']
 
 
 

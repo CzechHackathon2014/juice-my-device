@@ -47,13 +47,13 @@
 
         <div class="row">
             <div class="col-xs-4">
-                <span class="glyphicon glyphicon-thumbs-up btn-lg"></span>
+                <a href="{{ place.get_outlet_yes_url }}"><i class="fa fa-thumbs-o-up fa-3x"></i></a>{{ place.outlet_yes }}
             </div>
             <div class="col-xs-4">
                 <span class="glyphicon glyphicon-thumbs-remove btn-lg"></span>
             </div>
             <div class="col-xs-4">
-                <span class="glyphicon glyphicon-thumbs-down btn-lg"></span>
+                <a href="{{ place.get_outlet_no_url }}"><i class="fa fa-thumbs-o-down fa-3x"></i></a>{{ place.outlet_no }}
             </div>
         </div>
     </div>
