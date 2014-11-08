@@ -10,16 +10,27 @@
 {% block content %}
 
     <div class="container">
-    <div class="jumbotron text-center">
-    <h1>Hey, give me some Juice!</h1>
-    </div>
+        <div class="jumbotron text-center">
+            <h1>Hey, give me some Juice!</h1>
+        </div>
     </div>
     <div class="container text-center">
-    <form class="form" method="get" action="{% url 'places_around' %}">
-        <div class="form-group">{{ locaction_form.as_p }}</div>
-        <button class="btn btn-primary btn-lg" type="submit">Submit</button>
-    </form>
+
+        <input type="text">
+        <button><i class="glyphicon glyphicon-adjust"></i></button>
+        <form class="form" method="get" action="{% url 'places_around' %}">
+            <div class="form-group">{{ locaction_form.as_p }}</div>
+            <button class="btn btn-primary btn-lg" type="submit">Submit</button>
+        </form>
     </div>
+
+
+    <div class="container">
+        <p>places arround</p>
+        <div id="id_places"></div>
+
+    </div>
+{#<script src="{{ STATIC_URL }}js/home.js" type="text/javascript" charset="utf-8"></script>#}
 {% endblock %}
 </body>
 </html>
