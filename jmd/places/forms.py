@@ -3,13 +3,25 @@ __author__ = 'dmitrij'
 
 from django import forms
 
+
+class RangeInput(forms.NumberInput):
+    input_type = 'range'
+
+
 class LocationForm(forms.Form):
     lat = forms.FloatField(widget=forms.HiddenInput())
     lng = forms.FloatField(widget=forms.HiddenInput())
     radius = forms.IntegerField(initial=500)
 
+    def __init__(self, *args, **kwargs):
+        super(LocationForm, self).__init__(*args, **kwargs)
+        self.fields['radius'].widget = RangeInput(
+            attrs={'value': "500", 'min': "100", 'max': "1000", 'step': '100'})
+
 
 from .models import Comment
+
+
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
