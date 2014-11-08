@@ -40,7 +40,17 @@
                             {#                            places_div.append("<tr><td>Place</td><td>Distance</td></tr>");#}
                             $.each(data.places, function (index, obj) {
                                 {#                                alert(obj);#}
-                                places_div.append("<tr class='frsq_td'><td><a href='" + obj.url + "'>" + obj.name + "</a></td><td>" + obj.dist + "</td><td>" + obj.outlets + "</td></tr>");
+                                outlet_stat="";
+                                if (obj.outlets>0){
+                                    outlet_stat="<i class='fa fa-thumbs-o-up'></i>";
+                                }
+                                if(obj.outlets==0){
+                                    outlet_stat="<i class='fa fa-question'></i>";
+                                }
+                                if(obj.outlets<0){
+                                    outlet_stat="<i class='fa fa-thumbs-o-down'></i>";
+                                }
+                                places_div.append("<tr class='frsq_td'><td><a href='" + obj.url + "'>" + obj.name + "</a></td><td>" + obj.dist + "</td><td>" + outlet_stat + "</td></tr>");
 
                                 {#    places_div.append("<a href='/places/" + obj.uuid + "'>" + obj.name + "</a>" + "<br/>");#}
                             });
