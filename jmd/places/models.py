@@ -6,11 +6,6 @@ import uuid
 from django.utils.encoding import smart_text
 
 
-class Category(models.Model):
-    name = models.CharField(max_length=120)
-    uid = models.CharField(max_length=120)
-
-
 class Place(models.Model):
     uuid = models.CharField(max_length=32)
     venue_uid = models.CharField(max_length=120)
@@ -49,13 +44,15 @@ class Place(models.Model):
         return 'place_outlet_update', [self.uuid, '-']
 
 
-
-
-class Outlet(models.Model):
+class Comment(models.Model):
     place = models.ForeignKey(Place)
-    count_yes = models.IntegerField(default=0)
-    count_no = models.IntegerField(default=0)
-    note = models.TextField(max_length=260)
+    text = models.TextField(max_length=1000)
+    created_at = models.DateTimeField(auto_now_add=True)
+    active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
 
 
 
