@@ -16,13 +16,15 @@
 
 
     <script type="text/javascript">
-        {% block extra_js %}{% endblock %}
+
         jQuery(document).ready(function ($) {
             $(".frsq_td").click(function () {
                 window.document.location = $(this).find('a').attr('href');
             });
         });
     </script>
+
+    {% block extra_js %}{% endblock %}
 
 </head>
 <body>
