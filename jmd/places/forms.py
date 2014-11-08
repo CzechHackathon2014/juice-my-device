@@ -4,6 +4,10 @@ __author__ = 'dmitrij'
 from django import forms
 
 
+class RangeInput(forms.NumberInput):
+    input_type = 'range'
+
+
 class LocationForm(forms.Form):
     lat = forms.FloatField(widget=forms.HiddenInput())
     lng = forms.FloatField(widget=forms.HiddenInput())
@@ -11,8 +15,8 @@ class LocationForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(LocationForm, self).__init__(*args, **kwargs)
-        self.fields['radius'].widget.attrs = {'data-slider': True, 'data-slider-range': "100,1000",
-                                              'data-slider-step': 100}
+        self.fields['radius'].widget = RangeInput(
+            attrs={'value': "500", 'min': "100", 'max': "1000", 'step': '100'})
 
 
 from .models import Comment
