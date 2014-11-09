@@ -33,10 +33,12 @@ audio:not([controls]) {
 
 a {
     background: 0 0
+    color:#ffa500;
 }
 
 a:active, a:hover {
     outline: 0
+    color:#cc8400;
 }
 
 abbr[title] {
@@ -1120,13 +1122,13 @@ input, button, select, textarea {
 }
 
 a {
-    color: #428bca;
+    color: #ffa500;
     text-decoration: none
 }
 
 a:hover, a:focus {
-    color: #2a6496;
-    text-decoration: underline
+    color: #cc8400;
+    text-decoration: none
 }
 
 a:focus {
@@ -4176,7 +4178,6 @@ textarea.input-group-sm > .form-control, textarea.input-group-sm > .input-group-
 .navbar-brand {
     float: left;
     height: 50px;
-    padding: 15px 15px;
     font-size: 18px;
     line-height: 20px
 }
@@ -6667,7 +6668,7 @@ button.close {
 
 .frsq_td:hover {
     cursor: pointer;
-    background: lightgray;
+    background: #ededed;
 }
 
 .menu_li {

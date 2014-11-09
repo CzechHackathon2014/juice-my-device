@@ -552,10 +552,12 @@
 
 .fa-times-circle-o:before {
     content: "\f05c";
+    color:#ff0000;
 }
 
 .fa-check-circle-o:before {
     content: "\f05d";
+    color:#1d9d74;
 }
 
 .fa-ban:before {
@@ -728,6 +730,7 @@
 
 .fa-heart-o:before {
     content: "\f08a";
+    color:#b20000;
 }
 
 .fa-sign-out:before {
@@ -1225,6 +1228,7 @@
 
 .fa-frown-o:before {
     content: "\f119";
+    color:#72bcd4;
 }
 
 .fa-meh-o:before {
@@ -1285,6 +1289,7 @@
 
 .fa-question:before {
     content: "\f128";
+    color:gray;
 }
 
 .fa-info:before {
