@@ -6,7 +6,7 @@
 //    latitude = $('#id_lat').val();
 //    latitude = $('#id_lng').val();
 //    radius = $('#id_rad').val();
-//    $.get("/places/around/", { lat: latitude, lng: latitude, radius: radius})
+//    $.get("/places/nearby/", { lat: latitude, lng: latitude, radius: radius})
 //        .done(function (data) {
 //            div = $('#id_places');
 //

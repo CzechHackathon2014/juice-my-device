@@ -6,6 +6,7 @@ from .forms import LocationForm
 from .models import Place
 from django.db.models import QuerySet
 
+
 def home(request, tmpl='places/home.html'):
     data = {}
     place_list = Place.objects.all()
@@ -13,34 +14,21 @@ def home(request, tmpl='places/home.html'):
     return render(request, tmpl, data)
 
 
-def around(request, tmpl='places/around.html'):
-    data = {}
-    # loc_form = LocationForm(request.GET or None)
-    # print loc_form.is_valid()
+FOOD_CATEGORY = '4d4b7105d754a06374d81259'
 
-    # place_list = []
 
-    # if loc_form.is_valid():
-    #     frm = loc_form.cleaned_data
-
-    lat = request.GET.get('lat')
-    lng = request.GET.get('lng')
-    rad = request.GET.get('radius')
-
-    if not lat and not lng:
-        return redirect('places_home')
-
+def get_venues(lat, lng, rad=500):
     client = foursquare.Foursquare(client_id=settings.YOUR_CLIENT_ID, client_secret=settings.YOUR_CLIENT_SECRET)
 
     # list_venues = client.venues.search(params={'ll': '%s,%s' % (lat, lng), 'radius':1000})
-    list_venues = client.venues.search(
-        params={'ll': '%s,%s' % (lat, lng), 'radius': rad, 'categoryId': '4d4b7105d754a06374d81259'})
+    # list_venues = client.venues.search(
+    list_venues = client.venues.explore(
+        params={'ll': '%s,%s' % (lat, lng), 'radius': rad, 'categoryId': FOOD_CATEGORY, 'sortByDistance': 1})
     # list_venues = client.venues.search(params={'ll': '%s,%s' % (lat, lng), 'categoryId':'4d4b7105d754a06374d81259'})
-    place_list = []
+    # place_list = []
     # pl_dict = QueryDict
 
     venue_list = []
-
     for v in list_venues['venues']:
         vid = v['id']
         vname = v['name']
@@ -54,8 +42,10 @@ def around(request, tmpl='places/around.html'):
             pl = Place.objects.get(venue_uid=vid)
         except Place.DoesNotExist:
             pl = Place.objects.create(venue_uid=vid, name=vname, lat=vlat, lng=vlng)
+
         pl.dist = vdist
-        place_list.append(pl)
+
+        # place_list.append(pl)
         vurl = pl.get_absolute_url()
         # print pl.get_absolute_url()
 
@@ -63,6 +53,71 @@ def around(request, tmpl='places/around.html'):
 
         venue = {'name': vname, 'lat': vlat, 'lng': vlng, 'dist': vdist, 'url': vurl, 'outlets': pl.has_outlets()}
         venue_list.append(venue)
+        return venue_list
+
+
+def nearby(request, tmpl='places/nearby.html'):
+    data = {}
+    # loc_form = LocationForm(request.GET or None)
+    # print loc_form.is_valid()
+
+    # place_list = []
+
+    # if loc_form.is_valid():
+    # frm = loc_form.cleaned_data
+
+    lat = request.GET.get('lat')
+    lng = request.GET.get('lng')
+    rad = request.GET.get('radius')
+
+    if not lat and not lng:
+        return redirect('places_home')
+
+    client = foursquare.Foursquare(client_id=settings.YOUR_CLIENT_ID, client_secret=settings.YOUR_CLIENT_SECRET)
+
+    # list_venues = client.venues.search(params={'ll': '%s,%s' % (lat, lng), 'radius':1000})
+    list_venues = client.venues.explore(
+        params={'ll': '%s,%s' % (lat, lng), 'radius': rad, 'categoryId': FOOD_CATEGORY, 'sortByDistance': 1,
+                'llAcc': rad})
+    # params={'ll': '%s,%s' % (lat, lng), 'radius': rad, 'categoryId': FOOD_CATEGORY, 'section':'food', 'sortByDistance': 1, 'llAcc':100})
+    # list_venues = client.venues.search(params={'ll': '%s,%s' % (lat, lng), 'categoryId':'4d4b7105d754a06374d81259'})
+    place_list = []
+    # pl_dict = QueryDict
+
+    venue_list = []
+
+    for g in list_venues['groups']:
+        # print g
+        for i in g['items']:
+            v = i['venue']
+            # for v in i['venue']:
+            # print v
+
+
+            # for v in i['venue']:
+            vid = v['id']
+            vname = v['name']
+
+            lct = v['location']
+            vlat = lct['lat']
+            vlng = lct['lng']
+            vdist = lct['distance']
+
+            try:
+                pl = Place.objects.get(venue_uid=vid)
+            except Place.DoesNotExist:
+                pl = Place.objects.create(venue_uid=vid, name=vname, lat=vlat, lng=vlng)
+
+            pl.dist = vdist
+
+            place_list.append(pl)
+            vurl = pl.get_absolute_url()
+            # print pl.get_absolute_url()
+
+            # print type(vurl
+
+            venue = {'name': vname, 'lat': vlat, 'lng': vlng, 'dist': vdist, 'url': vurl, 'outlets': pl.has_outlets()}
+            venue_list.append(venue)
             # pl.distance = lct['distance']
             # # print (list_venues)
             # # for venue in list_venues:
@@ -99,6 +154,8 @@ def around(request, tmpl='places/around.html'):
 from django.shortcuts import get_object_or_404
 
 from .forms import CommentForm, Comment
+
+
 def detail(request, uid, tmpl='places/detail.html'):
     data = {}
     client = foursquare.Foursquare(client_id=settings.YOUR_CLIENT_ID, client_secret=settings.YOUR_CLIENT_SECRET)
@@ -114,7 +171,6 @@ def detail(request, uid, tmpl='places/detail.html'):
         cmnt = comment_form.save()
         return redirect(place.get_absolute_url())
 
-
     data['place'] = place
     data['venue'] = venue['venue']
     data['comment_form'] = comment_form
@@ -124,7 +180,6 @@ def detail(request, uid, tmpl='places/detail.html'):
     return render(request, tmpl, data)
 
 
-
 def outlet(request, uid, act):
     data = {}
 
@@ -132,7 +187,7 @@ def outlet(request, uid, act):
     if act == '+':
         place.outlet_yes += 1
     if act == '-':
-        place.outlet_no +=1
+        place.outlet_no += 1
     place.save()
 
     return redirect(place.get_absolute_url())

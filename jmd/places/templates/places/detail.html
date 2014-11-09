@@ -46,12 +46,18 @@
         <h1>Can you Juice here?</h1>
 
         <div class="row">
-            <div class="col-xs-12">
-                <h3><a class="margin_right" href="{{ place.get_outlet_yes_url }}"><i
-                        class="fa fa-thumbs-o-up fa-5x"></i></a> <a class="margin_left"
-                                                                    href="{{ place.get_outlet_no_url }}"><i
-                        class="fa fa-thumbs-o-down fa-5x"></i></a></h3>
+            <div class="col-xs-4 col-xs-push-2">
+                <a class="margin_right" href="{{ place.get_outlet_yes_url }}"><i
+                        class="fa fa-plug fa-4x"></i>Yes
 
+
+                </a>
+            </div>
+            <div class="col-xs-4 col-xs-push-2"><a class="margin_left"
+                                     href="{{ place.get_outlet_no_url }}"><i
+                    class="fa fa-meh-o fa-4x"></i>No</a></div>
+
+            <div class="col-xs-12">
                 <h2>{{ place.outlet_yes }} - {{ place.outlet_no }}</h2>
             </div>
         </div>
@@ -75,7 +81,8 @@
         {#    active =#}
         {% for c in place.comment_set.all %}
 
-            {% if forloop.counter|divisibleby:2 %}<p class="grey">{{ c.text }}</p>{% else %}<p>{{ c.text }}</p>{% endif %}
+            {% if forloop.counter|divisibleby:2 %}<p class="grey">{{ c.text }}</p>{% else %}<p>{{ c.text }}</p>
+            {% endif %}
         {% endfor %}
     </div>
 
