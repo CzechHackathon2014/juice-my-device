@@ -75,54 +75,55 @@ def nearby(request, tmpl='places/nearby.html'):
 
     client = foursquare.Foursquare(client_id=settings.YOUR_CLIENT_ID, client_secret=settings.YOUR_CLIENT_SECRET)
 
-    # list_venues = client.venues.search(params={'ll': '%s,%s' % (lat, lng), 'radius':1000})
-    list_venues = client.venues.explore(
-        params={'ll': '%s,%s' % (lat, lng), 'radius': rad, 'categoryId': FOOD_CATEGORY, 'sortByDistance': 1,
-                'llAcc': rad})
+    list_venues = client.venues.search(params={'ll': '%s,%s' % (lat, lng), 'radius':rad, 'categoryId':FOOD_CATEGORY})
+    # list_venues = client.venues.explore(
+    #     params={'ll': '%s,%s' % (lat, lng), 'radius': rad, 'query':'food', 'sortByDistance': 1,
+    #             'llAcc': rad})
     # params={'ll': '%s,%s' % (lat, lng), 'radius': rad, 'categoryId': FOOD_CATEGORY, 'section':'food', 'sortByDistance': 1, 'llAcc':100})
     # list_venues = client.venues.search(params={'ll': '%s,%s' % (lat, lng), 'categoryId':'4d4b7105d754a06374d81259'})
     place_list = []
     # pl_dict = QueryDict
 
     venue_list = []
-
-    for g in list_venues['groups']:
-        # print g
-        for i in g['items']:
-            v = i['venue']
+    for v in list_venues['venues']:
+    #     v =
+    # for g in list_venues['groups']:
+    #     # print g
+    #     for i in g['items']:
+    #         v = i['venue']
             # for v in i['venue']:
             # print v
 
 
-            # for v in i['venue']:
-            vid = v['id']
-            vname = v['name']
+        # for v in i['venue']:
+        vid = v['id']
+        vname = v['name']
 
-            lct = v['location']
-            vlat = lct['lat']
-            vlng = lct['lng']
-            vdist = lct['distance']
+        lct = v['location']
+        vlat = lct['lat']
+        vlng = lct['lng']
+        vdist = lct['distance']
 
-            try:
-                pl = Place.objects.get(venue_uid=vid)
-            except Place.DoesNotExist:
-                pl = Place.objects.create(venue_uid=vid, name=vname, lat=vlat, lng=vlng)
+        try:
+            pl = Place.objects.get(venue_uid=vid)
+        except Place.DoesNotExist:
+            pl = Place.objects.create(venue_uid=vid, name=vname, lat=vlat, lng=vlng)
 
-            pl.dist = vdist
+        pl.dist = vdist
 
-            place_list.append(pl)
-            vurl = pl.get_absolute_url()
-            # print pl.get_absolute_url()
+        place_list.append(pl)
+        vurl = pl.get_absolute_url()
+        # print pl.get_absolute_url()
 
-            # print type(vurl
+        # print type(vurl
 
-            venue = {'name': vname, 'lat': vlat, 'lng': vlng, 'dist': vdist, 'url': vurl, 'outlets': pl.has_outlets()}
-            venue_list.append(venue)
-            # pl.distance = lct['distance']
-            # # print (list_venues)
-            # # for venue in list_venues:
-            # # print venue.name
-            # place_list.append(pl)
+        venue = {'name': vname, 'lat': vlat, 'lng': vlng, 'dist': vdist, 'url': vurl, 'outlets': pl.has_outlets()}
+        venue_list.append(venue)
+        # pl.distance = lct['distance']
+        # # print (list_venues)
+        # # for venue in list_venues:
+        # # print venue.name
+        # place_list.append(pl)
 
 
             # data['venue'] = list_venues
