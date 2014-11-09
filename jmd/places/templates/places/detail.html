@@ -65,13 +65,15 @@
     <div class="container">
 
     </div>
-    <div class="container text-center">
+    <div class="container text-center lead">
         <div class="row">
             <div class="col-xs-12">
                 <form method="post" action=".">
+                    <div class="form-group">
                     {{ comment_form }}
-                    <button type="submit" class="btn btn-default">Send</button>
+                    <button type="submit" class="btn_comment">Send</button>
                     {% csrf_token %}
+                        </div>
                 </form>
             </div>
         </div>
