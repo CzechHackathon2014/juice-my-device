@@ -8,22 +8,35 @@
 <body>
 {% block content %}
     <div class="container">
-        <div class="jumbotron">
+        <div class="jumbotron text-center">
             <h1>
-                Number of places around: {{ places_count }}
+                {{ places_count }} place{{ places_count|pluralize }} found!
             </h1>
         </div>
     </div>
     <div class="container">
         <table class="table text-center">
             <tr>
-                <td>Podnik</td>
-                <td>Dist</td>
+                <td>Place</td>
+                <td>Distance</td>
+                <td>Juice</td>
             </tr>
             {% for place in place_list %}
                 <tr class="frsq_td">
                     <td><a href="{{ place.get_absolute_url }}"> {{ place.name }} </a></td>
                     <td>{{ place.dist }}</td>
+                    <td>
+                        {% if place.outlet_yes > place.outlet_no %}
+                            <i class='fa fa-check-circle-o'></i>
+                        {% endif %}
+                        {% if place.outlet_yes == place.outlet_no %}
+                            <i class='fa fa-question'></i>
+                        {% endif %}
+                        {% if place.outlet_yes < place.outlet_no %}
+                            <i class='fa fa-times-circle-o'></i>
+                        {% endif %}
+
+                    </td>
                 </tr>
             {% endfor %}
         </table>

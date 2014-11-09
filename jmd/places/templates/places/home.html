@@ -15,17 +15,15 @@
             </h1>
         </div>
     </div>
-    <div class="container">
+     <div class="container">
         <table class="table text-center">
             <tr>
                 <td>Podnik</td>
-                <td>ID</td>
-                <td>Distance</td>
+                <td>Dist</td>
             </tr>
             {% for place in place_list %}
                 <tr class="frsq_td">
-                    <td><a href="{{ place.get_absolute_url }}">{{ place.name }}</a></td>
-                    <td>{{ place.venue_uid }}</td>
+                    <td><a href="{{ place.get_absolute_url }}"> {{ place.name }} </a></td>
                     <td>{{ place.dist }}</td>
                 </tr>
             {% endfor %}

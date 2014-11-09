@@ -16,7 +16,8 @@ class LocationForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(LocationForm, self).__init__(*args, **kwargs)
         self.fields['radius'].widget = RangeInput(
-            attrs={'value': "500", 'min': "100", 'max': "1000", 'step': '100'})
+            attrs={'value': "500", 'min': "0", 'max': "1000", 'step': '10'})
+        self.fields["radius"].label=False
 
 
 from .models import Comment

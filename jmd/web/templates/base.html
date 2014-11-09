@@ -40,12 +40,15 @@
                 <span class="icon-bar icon-bar2"></span>
                 <span class="icon-bar icon-bar2"></span>
             </button>
-            <a class="navbar-brand" href="/">JuiceLo</a>
+            <a class="navbar-brand" href="/">
+                    <img src="{{ STATIC_URL }}img/nasirku.png" width="131" height="50" alt="">
+                </a>
         </div>
         <div id="navbar" class="collapse navbar-collapse navbar-left">
             <ul class="nav navbar-nav">
                 <li class="{% block active_home %}{% endblock %}"><a href="/">Home</a></li>
-                <li class="{% block active_places %}{% endblock %}"><a href="{% url "places_home" %}">Places</a></li>
+                <li><a href="#">About us</a></li>
+                <li><a href="#">Contact</a></li>
             </ul>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
@@ -65,5 +68,10 @@
 {% block content %}
 
 {% endblock %}
+<div id="footer">
+      <div class="container text-center">
+        <p class="muted credit">&copy; 2014 Life hacking by <a href="#">Piero</a> - <a href="#">Dmitrij</a> - <a href="#">Slávek</a></p>
+      </div>
+    </div>
 </body>
 </html>
